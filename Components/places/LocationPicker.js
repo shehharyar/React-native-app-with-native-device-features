@@ -2,10 +2,11 @@ import { StyleSheet, View, Alert } from "react-native";
 import { Colors } from "../../constants/olors";
 import {getCurrentPositionAsync, useForegroundPermissions, PermissionStatus} from "expo-location";
 import OutlinedButton from "../UI/OutlinedButton";
+import { useNavigation } from "@react-navigation/native";
 
 
 function LocationPicker(){
-
+const navigation=useNavigation();
 const [locationPermissionInformation, requestPermission]= useForegroundPermissions();
   async function verifyPermissions(){
     if(locationPermissionInformation.status === PermissionStatus.UNDETERMINED){
@@ -30,13 +31,15 @@ const [locationPermissionInformation, requestPermission]= useForegroundPermissio
       console.log(location);
     }
 
-    function pickOnMapHandler(){}
+    function pickOnMapHandler(){
+        navigation.navigate("Map")
+    }
 
     return <View>
         <View style={styles.imagePreview}></View>
         <View style={styles.actions}>
             <OutlinedButton onPress={getLocationHandler} icon="location">Locate User</OutlinedButton>
-            <OutlinedButton icon="map">Pick on Map</OutlinedButton>
+            <OutlinedButton icon="map" onPress={pickOnMapHandler}>Pick on Map</OutlinedButton>
         </View>
     </View>
 }
